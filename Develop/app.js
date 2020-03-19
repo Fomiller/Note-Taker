@@ -2,6 +2,7 @@
 // ==========================================================
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 
 // Sets up the express app
 // ==========================================================
@@ -25,6 +26,23 @@ app.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "/public/notes.html"));
 })
 
+app.get("/api/notes", function(req,res) {
+    const dataPath = path.join(__dirname, "/db/db.json")
+    var content = [];
+
+    fs.readFile(dataPath, function(err, data) {
+        if (err) {
+            console.log("something went wrong");
+        }
+
+        content = data.toString();
+        var jsonObj = JSON.parse(content)
+        // console.log("console: " + content);
+        res.json(jsonObj);
+    });
+});
+
+// serves the index.html file if the path does not exist e.g. http://localhost:8000/thispathdoesnotexist
 app.get('*', function(req,res) {
     res.sendFile(path.join(__dirname, "/public/index.html"));
 });
