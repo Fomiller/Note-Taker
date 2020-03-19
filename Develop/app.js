@@ -26,27 +26,50 @@ app.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "/public/notes.html"));
 })
 
+// Route to read database
 app.get("/api/notes", function(req,res) {
+    // set Path to the database 
     const dataPath = path.join(__dirname, "/db/db.json")
-    var content = [];
 
+    // read the data base file @ dataPath 
     fs.readFile(dataPath, function(err, data) {
         if (err) {
             console.log("something went wrong");
         }
-
-        content = data.toString();
-        var jsonObj = JSON.parse(content)
-        // console.log("console: " + content);
-        res.json(jsonObj);
+        res.json(JSON.parse(data));
     });
 });
+
+// route to add notes to data base
+app.post("/api/notes", function(req, res) {
+    // set Path to the database 
+    const dataPath = path.join(__dirname, "/db/db.json")
+    // JSON stringify request body and setting to variable
+    const newNote = req.body;
+    newNote.id = newNote.title.replace(/\s+/g, "").toLowerCase();
+    console.log(newNote);
+
+    // Read Database 
+    const oldDataBase = () => fs.readFileSync(dataPath, {encoding: 'utf8'});
+    // create JSON object of the response from the Database.
+    const jsonOldDB = JSON.parse(oldDataBase());
+
+    // Add new note to the database
+    jsonOldDB.push(newNote);
+    let newDB = jsonOldDB;
+
+    const newDataBase = () => fs.writeFileSync(dataPath, JSON.stringify(newDB, null, 2), {encoding: 'utf8'});
+    newDataBase();
+    // respond with new data
+    res.json(newNote);
+})
+
+
 
 // serves the index.html file if the path does not exist e.g. http://localhost:8000/thispathdoesnotexist
 app.get('*', function(req,res) {
     res.sendFile(path.join(__dirname, "/public/index.html"));
 });
-
 
 // Starts the server to begin listening
 // =============================================================
