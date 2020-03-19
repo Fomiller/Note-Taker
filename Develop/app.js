@@ -15,9 +15,14 @@ app.use(express.json());
 // Routes
 // ==================================================================
 
-// Basic route that send the user first to the AJAZ Page
+// Basic route that send the user first to the AJAX Page
 app.get("/", function(req, res) {
     res.sendFile(path.join(__dirname, "/public/index.html"));
+})
+
+// Basic route to serve notes.html
+app.get("/notes", function(req, res) {
+    res.sendFile(path.join(__dirname, "/public/notes.html"));
 })
 
 
