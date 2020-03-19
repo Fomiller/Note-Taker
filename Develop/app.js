@@ -46,8 +46,8 @@ app.post("/api/notes", function(req, res) {
     const dataPath = path.join(__dirname, "/db/db.json")
     // JSON stringify request body and setting to variable
     const newNote = req.body;
+    // give each note an id property
     newNote.id = newNote.title.replace(/\s+/g, "").toLowerCase();
-    console.log(newNote);
 
     // Read Database 
     const oldDataBase = () => fs.readFileSync(dataPath, {encoding: 'utf8'});
@@ -62,6 +62,27 @@ app.post("/api/notes", function(req, res) {
     newDataBase();
     // respond with new data
     res.json(newNote);
+})
+
+app.delete("/api/notes/:note", function(req, res) {
+    // set Path to the database 
+    const dataPath = path.join(__dirname, "/db/db.json")
+    var deleteNote = req.params.note;
+    console.log("Note Deleted: " + deleteNote);
+
+    // read database
+    const oldDataBase = () => fs.readFileSync(dataPath, {encoding: 'utf8'});
+    const jsonDB= JSON.parse(oldDataBase());
+    // console.log(jsonDB);
+
+    for (var i = 0; i < jsonDB.length; i++) {
+        if (deleteNote === jsonDB[i].id) {
+            jsonDB.splice([i], 1,);
+            fs.writeFileSync(dataPath, JSON.stringify(jsonDB, null, 2), {encoding: 'utf8'});
+            return res.json(jsonDB);
+        }
+    };
+
 })
 
 
