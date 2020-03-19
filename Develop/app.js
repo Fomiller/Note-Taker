@@ -46,6 +46,8 @@ app.post("/api/notes", function(req, res) {
     const dataPath = path.join(__dirname, "/db/db.json")
     // JSON stringify request body and setting to variable
     const newNote = req.body;
+    newNote.id = newNote.title.replace(/\s+/g, "").toLowerCase();
+    console.log(newNote);
 
     // Read Database 
     const oldDataBase = () => fs.readFileSync(dataPath, {encoding: 'utf8'});
@@ -61,6 +63,8 @@ app.post("/api/notes", function(req, res) {
     // respond with new data
     res.json(newNote);
 })
+
+
 
 // serves the index.html file if the path does not exist e.g. http://localhost:8000/thispathdoesnotexist
 app.get('*', function(req,res) {
