@@ -1,6 +1,6 @@
 
 # Note Taker
-![Commits](https://img.shields.io/github/last-commit/Fomiller/https://github.com/Fomiller/Note-Taker)  
+![Commits](https://img.shields.io/github/last-commit/Fomiller/Note-Taker)  
 ## Languages
 ![HTML](https://img.shields.io/badge/language-HTML-brightgreen)&ensp;![CSS](https://img.shields.io/badge/language-CSS-yellow)&ensp;![JavaScript](https://img.shields.io/badge/language-JavaScript-blue)&ensp;![Node.js](https://img.shields.io/badge/language-Node.js-yellow)&ensp;
 ## Description
